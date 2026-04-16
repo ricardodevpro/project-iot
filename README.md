@@ -32,30 +32,45 @@ O pipeline segue as etapas fundamentais de engenharia de dados:
 
 ```bash
 git clone <url-do-repositorio>
-cd DAIOTBDIA
-2. Criar e ativar ambiente virtual
+```
+
+### 2. Criar e ativar ambiente virtual
+```bash
 python -m venv .venv
 .venv\Scripts\activate
-3. Instalar dependências
-pip install pandas sqlalchemy psycopg2-binary python-dotenv streamlit
-4. Configurar variáveis de ambiente
+```
 
+### 3. Instalar dependências
+```bash
+pip install pandas sqlalchemy psycopg2-binary python-dotenv streamlit
+```
+
+### 5. Configurar variáveis de ambiente
 Crie um arquivo .env:
 
+```bash
 DB_USER=postgres
 DB_PASSWORD=postgres
 DB_HOST=localhost
 DB_PORT=5432
 DB_NAME=postgres
+```
 
-5. Subir o banco com Docker
+### 5. Subir o banco com Docker
+```bash
 docker-compose up -d
+```
 
-6. Executar o pipeline
+### 6. Executar o pipeline
+```bash
 python -m scripts.run_pipeline
+```
 
-7. Criar as views no banco
+### 7. Criar as views no banco
+```bash
 docker exec -it postgres-iot psql -U postgres
+```
+```bash
 CREATE OR REPLACE VIEW avg_temp_por_dispositivo AS
 SELECT "room_id/id", AVG(temp) AS avg_temp
 FROM temperature_readings
@@ -74,19 +89,23 @@ MAX(temp) AS temp_max,
 MIN(temp) AS temp_min
 FROM temperature_readings
 GROUP BY data;
+```
 
-8. Executar o dashboard
+### 8. Executar o dashboard
 
 ⚠️ Importante: Execute sempre a partir da raiz do projeto.
 
+```bash
 python -m streamlit run app/dashboard/dashboard.py
+```
 ⚠️ Problema Comum
 ❌ Erro:
 ModuleNotFoundError: No module named 'app'
 ✅ Solução:
 
 Execute o Streamlit usando o modo módulo:
-
+```bash
 python -m streamlit run app/dashboard/dashboard.py
+```
 
 Isso garante que o Python reconheça corretamente a estrutura do projeto.
